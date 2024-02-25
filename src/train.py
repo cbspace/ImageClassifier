@@ -61,7 +61,7 @@ valid_loader = DataLoader(valid_dataset, batch_size=320)
 test_loader = DataLoader(valid_dataset, batch_size=320)
 
 # Create Image Classifier model, train and validate
-model = ICModel(args.gpu, '../cat_to_name.json')
+model = ICModel(args.gpu, '../res/cat_to_name.json')
 model.create_model(args.arch, args.hidden_units, train_dataset.class_to_idx, args.learning_rate)
 model.train(train_loader, valid_loader, args.epochs)
 model.validate(test_loader)

@@ -14,7 +14,7 @@
 #                        [--top_k <Number of Top Results>] 
 #                        [--category_names <Category Name File Path>] [--gpu]
 #   Example call:
-#      python predict.py ../sunflower_224.jpg ../checkpoints/checkpoint2.pth --gpu --top_k 5
+#      python predict.py ../res/sunflower_224.jpg ../checkpoints/alexnet_1000_6.pth --gpu --top_k 5
 
 # Imports for Image Classifier python files
 from ic_model import ICModel

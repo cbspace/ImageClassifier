@@ -20,7 +20,7 @@ def get_input_args_train():
 
     # Optional input arguments
     parser.add_argument('--save_dir', default='../checkpoints/', help='Directory to save checkpoints')
-    parser.add_argument('--arch', default='resnet34', choices=['vgg19', 'resnet34', 'alexnet'], help='CNN model to use')
+    parser.add_argument('--arch', default='resnet34', choices=['vgg19', 'resnet34' , 'resnet152', 'alexnet'], help='CNN model to use')
     parser.add_argument('--gpu', action='store_true', help='Use GPU for training')
 
     # Hyper Parameters
@@ -40,7 +40,7 @@ def get_input_args_predict():
 
     # Optional input arguments
     parser.add_argument('--top_k', default=5, type=int, help='Number of top results to return')
-    parser.add_argument('--category_names', default='../cat_to_name.json', help='Category numbers to names file')
+    parser.add_argument('--category_names', default='../res/cat_to_name.json', help='Category numbers to names file')
     parser.add_argument('--gpu', action='store_true', help='Use GPU for inference')
 
     return parser.parse_args()

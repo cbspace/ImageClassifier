@@ -15,6 +15,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, models, transforms
 from torchvision.models import vgg19, VGG19_Weights
 from torchvision.models import resnet34, ResNet34_Weights
+from torchvision.models import resnet152, ResNet152_Weights
 from torchvision.models import alexnet, AlexNet_Weights
 
 import numpy as np
@@ -57,6 +58,11 @@ class ICModel:
             self.model = models.resnet34(weights=ResNet34_Weights.DEFAULT)
             self.freeze_parameters()
             self.model.fc = self.create_classifier_layer(512)
+            parameters = self.model.fc.parameters()
+        elif self.arch == 'resnet152':
+            self.model = models.resnet152(weights=ResNet152_Weights.DEFAULT)
+            self.freeze_parameters()
+            self.model.fc = self.create_classifier_layer(2048)
             parameters = self.model.fc.parameters()
         elif self.arch == 'alexnet':
             self.model = models.alexnet(weights=AlexNet_Weights.DEFAULT)
