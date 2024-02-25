@@ -78,7 +78,8 @@ class ICModel:
 
     # Method to create the model classifier layer
     def create_classifier_layer(self, hidden_layer_in_size): 
-        return nn.Sequential(nn.Linear(hidden_layer_in_size, self.hidden_units),
+        return nn.Sequential(nn.Dropout(p=0.2),
+                             nn.Linear(hidden_layer_in_size, self.hidden_units),
                              nn.ReLU(),
                              nn.Dropout(p=0.2),
                              nn.Linear(self.hidden_units,102),
