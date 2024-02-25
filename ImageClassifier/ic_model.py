@@ -45,8 +45,9 @@ class ICModel:
         self.hidden_units = hidden_units
 
         # Create a model of specified architecture
-        # Freeze parameters and replace classifier layer
-        # Note the different default name of classifier layer for the models
+        # Freeze parameters and replace classifier layers
+        # Note the different default name of classifier node for the models
+        # and different number of inputs to the classifer node
         if self.arch == 'vgg19':
             self.model = models.vgg19(weights=VGG19_Weights.DEFAULT)
             self.freeze_parameters()
@@ -68,6 +69,7 @@ class ICModel:
         self.model.to(self.device) 
 
         # Create criterion and optimizer
+        # only used for training the model
         self.criterion = nn.NLLLoss()
         self.optimizer = optim.Adam(parameters, lr=learning_rate)
 
