@@ -34,7 +34,9 @@ options:
   -h, --help            show this help message and exit
   --save_dir SAVE_DIR   Directory to save checkpoints
   --arch {vgg19,resnet34,alexnet}
-                        CNN model to use
+                        CNN model to use (Not needed when checkpoint specified)
+  --checkpoint CHECKPOINT
+                        Path to model checkpoint file (.pth) for continued training
   --gpu                 Use GPU for training
   --learning_rate LEARNING_RATE
                         Set learning rate
