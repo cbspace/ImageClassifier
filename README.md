@@ -8,7 +8,8 @@ The train.py program can also be used to continue training a model for additiona
 
 Example Program output:
 
-```python predict.py ../res/sunflower_224.jpg ../checkpoints/alexnet_300_7.pth --gpu
+```
+python predict.py ../res/sunflower_224.jpg ../checkpoints/alexnet_300_7.pth --gpu
 1    Sunflower                      0.999635
 2    Blanket Flower                 0.000120
 3    Globe Thistle                  0.000105
