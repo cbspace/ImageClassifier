@@ -37,13 +37,15 @@ class ICModel:
         with open(cat_to_name_file, 'r') as f:
             self.cat_to_name = json.load(f)
 
-    def create_model(self, arch, hidden_units, class_to_idx, learning_rate=0.001):
+    def create_model(self, arch, hidden_units, class_to_idx, learning_rate, epochs_elapsed=0):
         ''' This function is called manually after intialising an ICModel object
             and is passed model parameters as inputs. The function is also called after
             loading a checkpoint.
         '''
         self.arch = arch
         self.hidden_units = hidden_units
+        self.epochs_elapsed = epochs_elapsed
+        self.learning_rate = learning_rate
 
         # Create a model of specified architecture
         # Freeze parameters and replace classifier layers
@@ -98,21 +100,29 @@ class ICModel:
         checkpoint_loaded = torch.load(filepath)
         self.create_model(checkpoint_loaded['arch'], 
                           checkpoint_loaded['hidden_units'],
-                          checkpoint_loaded['class_to_idx'])
+                          checkpoint_loaded['class_to_idx'],
+                          checkpoint_loaded['learning_rate'],
+                          checkpoint_loaded['epochs'])
         self.model.load_state_dict(checkpoint_loaded['state_dict'])
+        self.optimizer.load_state_dict(checkpoint_loaded['optimizer'])
 
     # Save the current model checkpoint into a .pth file
     def save_checkpoint(self, filepath):
         checkpoint = {'arch': self.arch,
                       'hidden_units': self.hidden_units,
                       'state_dict': self.model.state_dict(),
+                      'optimizer': self.optimizer.state_dict(),
+                      'epochs': self.epochs_elapsed,
+                      'learning_rate': self.learning_rate,
                       'class_to_idx': self.class_to_idx}
 
         torch.save(checkpoint, filepath)
 
     # Method to train the model
     def train(self, train_loader, valid_loader, epochs):
-        for epoch in range(1, epochs+1):
+        total_epochs = self.epochs_elapsed + epochs
+
+        for epoch in range(self.epochs_elapsed + 1, total_epochs + 1):
             self.model.train()
             running_loss = 0.0
             
@@ -126,6 +136,7 @@ class ICModel:
                 self.optimizer.step()
 
                 running_loss += loss.item()
+                self.epochs_elapsed = epoch
 
             # Validation after each epoch
             else:
@@ -145,7 +156,7 @@ class ICModel:
                     equality = top_class == labels.view(*top_class.shape)
                     accuracy += torch.mean(equality.type(torch.FloatTensor))
 
-                print('Epoch: {}/{}'.format(epoch, epochs),
+                print('Epoch: {}/{}'.format(epoch, total_epochs),
                     'Training Loss: {:.5f}'.format(running_loss/len(train_loader)),
                     'Validation Loss: {:.5f}'.format(validation_loss/len(valid_loader)),
                     'Validation Accuracy: {:.3f}'.format(accuracy/len(valid_loader)))

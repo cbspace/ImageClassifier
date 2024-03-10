@@ -62,7 +62,14 @@ test_loader = DataLoader(valid_dataset, batch_size=320)
 
 # Create Image Classifier model, train and validate
 model = ICModel(args.gpu, '../res/cat_to_name.json')
-model.create_model(args.arch, args.hidden_units, train_dataset.class_to_idx, args.learning_rate)
+
+# If a checpoint is specified then load it, otherwise create a new model
+if args.checkpoint:
+    model.load_checkpoint(args.checkpoint)
+else:
+    model.create_model(args.arch, args.hidden_units, train_dataset.class_to_idx, args.learning_rate)
+
+# Train the model for number of specified epochs
 model.train(train_loader, valid_loader, args.epochs)
 model.validate(test_loader)
 
@@ -73,5 +80,5 @@ if file_path[-1] != '/':
     file_path += '/'
 
 # Save the checkpoint as <model_arch>.pth
-file_path += f'{model.arch}_{model.hidden_units}_{args.epochs}.pth'
+file_path += f'{model.arch}_{model.hidden_units}_{model.epochs_elapsed}.pth'
 model.save_checkpoint(file_path)

@@ -1,9 +1,20 @@
 # AI Programming with Python Project - Image Classifier
 
-Project code for Udacity's AI Programming with Python Nanodegree program. This program explores image classification with Pytorch.
-A pretrained CNN model of specified type is loaded and then fine tuned using the input data set. The program uses a test set of images of flowers and can classify an input image as one of 102 flower categories.
+This project was initally the final assessment for Udacity's AI Programming with Python Nanodegree program and I have continued adding features. The program explores image classification models using Pytorch. A pretrained CNN model of specified type is loaded and then fine tuned using the input data set. The program uses a test set of images of flowers and can classify an input image as one of 102 flower categories.
 
 There are 2 Python script files, train.py for training the model and predict.py for performing image classification predictions. The program has the ability to save model checkpoints into .pth files and load them for furture use. This repository includes one such checkpoint file that can be used for image predictions.
+
+The train.py program can also be used to continue training a model for additional epochs and the result will be saved as a new checkpoint file.
+
+Example Program output:
+
+```python predict.py ../res/sunflower_224.jpg ../checkpoints/alexnet_300_7.pth --gpu
+1    Sunflower                      0.999635
+2    Blanket Flower                 0.000120
+3    Globe Thistle                  0.000105
+4    English Marigold               0.000045
+5    Common Dandelion               0.000041
+```
 
 ## Command Line Usage:
 
